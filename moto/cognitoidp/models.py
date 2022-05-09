@@ -329,9 +329,16 @@ class CognitoIdpUserPoolAttribute(BaseModel):
 
 
 class CognitoIdpUserPool(BaseModel):
+    gGlobalCount = 0
+
     def __init__(self, region, name, extended_config):
         self.region = region
-        self.id = "us-east-1_e41d6e437a19480bb4d9c517180b08d0"
+        if CognitoIdpUserPool.gGlobalCount == 0:
+            self.id = "us-east-1_e41d6e437a19480bb4d9c517180b08d0"
+        else:
+            self.id = "us-east-1_e41d6e437a19480bb4d9c517180b08d1"
+
+        CognitoIdpUserPool.gGlobalCount+=1
         self.arn = "arn:aws:cognito-idp:{}:{}:userpool/{}".format(
             self.region, DEFAULT_ACCOUNT_ID, self.id
         )
@@ -559,7 +566,11 @@ class CognitoIdpUserPoolDomain(BaseModel):
 class CognitoIdpUserPoolClient(BaseModel):
     def __init__(self, user_pool_id, generate_secret, extended_config):
         self.user_pool_id = user_pool_id
-        self.id = "ht43upb1h5gupj4b7twpq6y7q4"
+        if user_pool_id == "us-east-1_e41d6e437a19480bb4d9c517180b08d0":
+            self.id = "ht43upb1h5gupj4b7twpq6y7q4"
+        else:
+            self.id = "ht43upb1h5gupj4b7twpq6y7q5"
+        
         self.secret = str(uuid.uuid4())
         self.generate_secret = generate_secret or False
         self.extended_config = extended_config or {}
