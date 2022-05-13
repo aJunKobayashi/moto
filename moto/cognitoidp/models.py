@@ -1196,7 +1196,7 @@ class CognitoIdpBackend(BaseBackend):
                 }
 
             return self._log_user_in(user_pool, client, username)
-        elif auth_flow is (AuthFlow.REFRESH_TOKEN_AUTH, AuthFlow.REFRESH_TOKEN):
+        elif auth_flow in (AuthFlow.REFRESH_TOKEN_AUTH, AuthFlow.REFRESH_TOKEN):
             refresh_token = auth_parameters.get("REFRESH_TOKEN")
             (
                 access_token,
